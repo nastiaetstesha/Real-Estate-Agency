@@ -6,7 +6,9 @@ import phonenumbers
 
 def fill_owner_pure_phone(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
+    flats = Flat.objects.all()
+
+    for flat in flats:
         raw_phone = flat.owners_phonenumber
 
         try:
@@ -23,12 +25,18 @@ def fill_owner_pure_phone(apps, schema_editor):
         flat.save()
 
 
+def revert_owner_pure_phone(apps, schema_editor):
+    Flat = apps.get_model('property', 'Flat')
+    for flat in Flat.objects.all():
+        flat.owner_pure_phone = None
+        flat.save()
+
+
 class Migration(migrations.Migration):
     dependencies = [
         ('property', '0007_flat_owner_pure_phone'),
     ]
 
     operations = [
-        migrations.RunPython(fill_owner_pure_phone),
+        migrations.RunPython(fill_owner_pure_phone, revert_owner_pure_phone),
     ]
-
