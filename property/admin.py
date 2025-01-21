@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Flat
+from .models import Complaint
 
 
 class FlatAdmin(admin.ModelAdmin):
@@ -14,3 +15,14 @@ class FlatAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Flat, FlatAdmin)
+
+
+class ComplaintAdmin(admin.ModelAdmin):
+    list_display = ['user', 'flat', 'created_at']
+
+    list_filter = ['created_at']
+
+    raw_id_fields = ['user', 'flat']
+
+
+admin.site.register(Complaint, ComplaintAdmin)
