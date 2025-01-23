@@ -20,6 +20,7 @@ class OwnerInline(admin.TabularInline):
     raw_id_fields = ['owner', 'flat']
     extra = 1
 
+
 @admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
     list_display = ['address', 'price', 'new_building', 'construction_year', 'town']
