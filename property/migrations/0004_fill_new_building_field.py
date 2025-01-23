@@ -11,7 +11,6 @@ def fill_new_building_field(apps, schema_editor):
     Flat.objects.exclude(construction_year__gte=2015).update(new_building=False)
 
 
-
 class Migration(migrations.Migration):
 
     dependencies = [

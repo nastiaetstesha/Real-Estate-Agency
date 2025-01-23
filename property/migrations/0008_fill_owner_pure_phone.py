@@ -6,9 +6,8 @@ import phonenumbers
 
 def fill_owner_pure_phone(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    flats = Flat.objects.all()
 
-    for flat in flats:
+    for flat in Flat.objects.iterator():
         raw_phone = flat.owners_phonenumber
 
         try:
@@ -27,7 +26,7 @@ def fill_owner_pure_phone(apps, schema_editor):
 
 def revert_owner_pure_phone(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.iterator():
         flat.owner_pure_phone = None
         flat.save()
 
