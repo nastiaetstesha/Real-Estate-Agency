@@ -12,12 +12,13 @@ def fill_owner_pure_phone(apps, schema_editor):
 
         try:
             parsed_phone = phonenumbers.parse(raw_phone, "RU")
-            if phonenumbers.is_valid_number(parsed_phone):
-                flat.owner_pure_phone = phonenumbers.format_number(
-                    parsed_phone, phonenumbers.PhoneNumberFormat.E164
-                )
-            else:
+            if not phonenumbers.is_valid_number(parsed_phone):
                 flat.owner_pure_phone = None
+                continue
+            flat.owner_pure_phone = phonenumbers.format_number(
+                parsed_phone, phonenumbers.PhoneNumberFormat.E164
+            )
+
         except phonenumbers.NumberParseException:
             flat.owner_pure_phone = None
 
