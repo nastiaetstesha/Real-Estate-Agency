@@ -5,17 +5,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 
 
-
 class Flat(models.Model):
-    owner = models.CharField('ФИО владельца', max_length=200)
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
-    owner_pure_phone = PhoneNumberField(
-        'Нормализованный номер владельца',
-        blank=True,
-        null=True,
-        region='RU'
-    )
-
     new_building = models.BooleanField(
         'Новостройка',
         null=True,
@@ -80,11 +70,13 @@ class Complaint(models.Model):
         User,
         on_delete=models.CASCADE,
         verbose_name="Кто жаловался",
+        related_name='complaints'
     )
     flat = models.ForeignKey(
         Flat,
         on_delete=models.CASCADE,
         verbose_name="Квартира, на которую пожаловались",
+        related_name='complaints'
     )
     text = models.TextField("Текст жалобы")
 
@@ -110,7 +102,7 @@ class Owner(models.Model):
         "Flat",
         verbose_name="Квартиры в собственности",
         blank=True,
-        related_name="owners",
+        related_name="owners"
     )
 
     def __str__(self):
